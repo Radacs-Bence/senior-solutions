@@ -1,7 +1,5 @@
 package locations_solution;
 
-import locations_solution.Location;
-import locations_solution.LocationParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;

@@ -18,9 +18,7 @@ public class LocationsService {
         locations.add(new Location(3L, "d", 2, 23.4));
     }
 
-    public List<String> getLocations(){
-        return locations.stream()
-                .map(Location::getName)
-                .collect(Collectors.toList());
+    public List<Location> getLocations() {
+        return new ArrayList<>(locations);
     }
 }

@@ -17,6 +17,9 @@ public class LocationsController {
 
     @GetMapping("/locations")
     public String getLocations(){
-        return locationsService.getLocations().stream().collect(Collectors.joining(", "));
+        return locationsService.getLocations().stream()
+                .map(Location::getName)
+                .collect(Collectors.joining(", "));
     }
+
 }
