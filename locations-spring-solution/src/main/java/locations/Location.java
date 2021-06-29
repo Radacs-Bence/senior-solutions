@@ -29,4 +29,16 @@ public class Location {
     public double getLon() {
         return lon;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public void setLon(double lon) {
+        this.lon = lon;
+    }
 }
