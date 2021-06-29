@@ -23,7 +23,24 @@ Accept: application/json
 }
 
 ###
+PUT http://localhost:8080/99
+Content-Type: application/json
+Accept: application/json
+
+
+{
+  "name" : "a2",
+  "lat" : "2.0",
+  "lon" : "2.0"
+}
+
+###
 GET http://localhost:8080/locations
+Accept: application/json
+
+###
+
+DELETE http://localhost:8080/2
 Accept: application/json
 
 ###

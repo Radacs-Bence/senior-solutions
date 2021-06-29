@@ -14,4 +14,11 @@ public class LocationDTO {
     private double lat;
     private double lon;
 
+    @Override
+    public String toString() {
+        return  id +
+                ", " + name +
+                ", " + lat +
+                ", " + lon;
+    }
 }

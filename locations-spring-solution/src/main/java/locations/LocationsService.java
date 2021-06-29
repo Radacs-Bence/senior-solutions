@@ -39,11 +39,10 @@ public class LocationsService {
     }
 
     private Location searchLocationsById(long id) {
-        Location found = locations.stream()
+        return locations.stream()
                 .filter(location -> location.getId() == id)
                 .findAny()
-                .orElseThrow(() ->new IllegalArgumentException("Location not found"));
-        return found;
+                .orElseThrow(() ->new IllegalArgumentException("Location not found: " + id));
     }
 
     public LocationDTO createLocation(CreateLocationCommand command) {
@@ -60,7 +59,7 @@ public class LocationsService {
         return modelMapper.map(found, LocationDTO.class);
     }
 
-    public void deleteLocation(long id, UpdateLocationCommand command) {
+    public void deleteLocation(long id) {
         Location found = searchLocationsById(id);
         locations.remove(found);
     }
