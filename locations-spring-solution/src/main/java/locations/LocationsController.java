@@ -52,6 +52,7 @@ public class LocationsController {
     }
 
     @ExceptionHandler({IllegalArgumentException.class})
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<Problem> idNotFound(IllegalArgumentException e) {
         Problem problem = Problem.builder()
                 .withType(URI.create("locations/location-not-found"))
