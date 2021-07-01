@@ -41,6 +41,7 @@ public class MusicStoreService {
 
     public void deleteAllInstruments() {
         instruments.clear();
+        idGenerator = new AtomicLong();
     }
 
 
