@@ -66,6 +66,7 @@ public class MusicController {
                 .withTitle("Id not found")
                 .withStatus(Status.NOT_FOUND)
                 .withDetail(e.getMessage()).build();
+        
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .contentType(MediaType.APPLICATION_PROBLEM_JSON)
                 .body(problem);

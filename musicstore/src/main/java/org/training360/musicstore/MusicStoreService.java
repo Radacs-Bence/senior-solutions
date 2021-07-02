@@ -5,6 +5,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,11 +25,11 @@ public class MusicStoreService {
 
     public List<InstrumentDTO> listInstruments(Optional<String> brand, Optional<Integer> price) {
         List<Instrument> filtered = instruments.stream()
-                .filter(instrument -> brand.isEmpty() || instrument.getBrand().equals(brand.get()))
+                .filter(instrument -> brand.isEmpty() || instrument.getBrand().equalsIgnoreCase(brand.get()))
                 .filter(instrument -> price.isEmpty() || instrument.getPrice() == price.get())
                 .collect(Collectors.toList());
-        Type targetListType = new TypeToken<List<InstrumentDTO>>() {
-        }.getType();
+
+        Type targetListType = new TypeToken<List<InstrumentDTO>>() {}.getType();
         return modelMapper.map(filtered, targetListType);
     }
 
@@ -49,6 +50,7 @@ public class MusicStoreService {
         return modelMapper.map(searchById(id), InstrumentDTO.class);
     }
 
+
     private Instrument searchById(long id) {
         return instruments.stream()
                 .filter(instrument -> instrument.getId() == id)
@@ -59,9 +61,13 @@ public class MusicStoreService {
 
     public InstrumentDTO updatePrice(long id, UpdatePriceCommand command) {
         Instrument found = searchById(id);
-        found.setPrice(command.getPrice());
+        if (found.getPrice() != command.getPrice()){
+            found.setPrice(command.getPrice());
+            found.setPostDate(LocalDate.now());
+        }
         return modelMapper.map(found, InstrumentDTO.class);
     }
+
 
     public void deleteById(long id) {
         Instrument found = searchById(id);
