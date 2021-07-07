@@ -8,5 +8,5 @@ K�rlek jel�ld be, hogy melyik gyakorlati feladatokat oldottad meg!
 * [x] 2021.06.09. - Filmek, streamek gyakorl�sa (movie)
 * [x] 2021.06.15. - EB meccsek
 * [x] 2021.06.22. - Hasz�ltaut�
-* [ ] 2021.06.25. - Bicikli sharing
+* [x] 2021.06.25. - Bicikli sharing
 * [ ] 2021.06.29. - Filmek, RESTful webszolgáltatások gyakorlása (movie)
