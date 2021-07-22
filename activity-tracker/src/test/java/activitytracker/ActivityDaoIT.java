@@ -62,4 +62,18 @@ class ActivityDaoIT {
         assertEquals(activity.getDesc(), "Example21");
         assertNotEquals(activity.getUpdatedAt(), null);
     }
+
+    @Test
+    void findActivityByIdWithLabels() {
+        Activity example6 = new Activity(LocalDateTime.now(), "example6", ActivityType.BASKETBALL);
+        example6.addLabel("LabelEx1");
+        example6.addLabel("LabelEx2");
+        activityDao.saveActivity(example6);
+
+
+        Activity activity = activityDao.findActivityByIdWithLabels(6);
+
+        assertEquals(activity.getLabels().size(), 2);
+        assertEquals(activity.getLabels().get(0), "LabelEx1");
+    }
 }

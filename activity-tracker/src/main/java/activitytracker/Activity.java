@@ -2,6 +2,8 @@ package activitytracker;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Activities")
@@ -27,6 +29,9 @@ public class Activity {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @ElementCollection
+    private List<String> labels;
 
     public Activity(LocalDateTime startTime, String desc, ActivityType type) {
         this.startTime = startTime;
@@ -80,5 +85,20 @@ public class Activity {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public void addLabel(String label){
+        if (labels == null){
+            labels = new ArrayList<>();
+        }
+        labels.add(label);
+    }
+
+    public List<String> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(List<String> labels) {
+        this.labels = labels;
     }
 }
