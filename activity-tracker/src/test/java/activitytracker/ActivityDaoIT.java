@@ -47,8 +47,8 @@ class ActivityDaoIT {
     void listActivities() {
         List<Activity> activities = activityDao.listActivities();
 
-        assertEquals(activities.size(), 5);
-        assertEquals(activities.get(1).getDesc(), "example2");
+        assertEquals(5, activities.size());
+        assertEquals("example2", activities.get(1).getDesc());
 
     }
 
@@ -56,7 +56,7 @@ class ActivityDaoIT {
     void findActivityById() {
         Activity activity = activityDao.findActivityById(3);
 
-        assertEquals(activity.getDesc(), "example3");
+        assertEquals("example3", activity.getDesc());
 
     }
 
@@ -66,8 +66,8 @@ class ActivityDaoIT {
 
         List<Activity> activities = activityDao.listActivities();
 
-        assertEquals(activities.size(), 4);
-        assertEquals(activities.get(1).getDesc(), "example3");
+        assertEquals(4, activities.size());
+        assertEquals("example3", activities.get(1).getDesc());
     }
 
     @Test
@@ -75,8 +75,8 @@ class ActivityDaoIT {
         activityDao.updateActivity(2, "Example21");
         Activity activity = activityDao.findActivityById(2);
 
-        assertEquals(activity.getDesc(), "Example21");
-        assertNotEquals(activity.getUpdatedAt(), null);
+        assertEquals("Example21", activity.getDesc());
+        assertNotEquals(null, activity.getUpdatedAt());
     }
 
     @Test
@@ -86,8 +86,8 @@ class ActivityDaoIT {
 
         Activity activity = activityDao.findActivityByIdWithLabels(5);
 
-        assertEquals(activity.getLabels().size(), 2);
-        assertEquals(activity.getLabels().get(0), "LabelEx1");
+        assertEquals(2, activity.getLabels().size());
+        assertEquals("LabelEx1", activity.getLabels().get(0));
     }
 
 
@@ -95,8 +95,21 @@ class ActivityDaoIT {
     void findActivityByIdWithTrackPoints() {
         Activity activity = activityDao.findActivityByIdWithTrackPoints(3);
 
-        assertEquals(activity.getTrackPoints().size(), 4);
-        assertEquals(activity.getTrackPoints().get(3).getLat(), 4);
+        assertEquals(4 ,activity.getTrackPoints().size());
+        assertEquals(4 ,activity.getTrackPoints().get(3).getLat());
 
+    }
+
+    @Test
+    void findTrackPointCoordinatesByDate() {
+        List<Coordinate> coordinates1 = activityDao.findTrackPointCoordinatesByDate(LocalDateTime.of(2022, 2, 22, 12, 42), 0, 3);
+        List<Coordinate> coordinates2 = activityDao.findTrackPointCoordinatesByDate(LocalDateTime.MIN, 1, 2);
+
+        assertEquals(2, coordinates1.size());
+        assertEquals(4 ,coordinates1.get(0).getLat());
+
+        assertEquals(2, coordinates2.size());
+        assertEquals(3 ,coordinates2.get(0).getLat());
+        assertEquals(1 ,coordinates2.get(1).getLat());
     }
 }

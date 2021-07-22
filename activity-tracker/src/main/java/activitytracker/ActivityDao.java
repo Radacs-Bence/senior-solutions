@@ -26,7 +26,6 @@ public class ActivityDao {
 
     public List<Activity> listActivities() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-
         entityManager.getTransaction().begin();
 
         List<Activity> activities = entityManager.createQuery("select a from Activity a", Activity.class)
@@ -39,7 +38,6 @@ public class ActivityDao {
 
     public Activity findActivityById(long id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-
         entityManager.getTransaction().begin();
 
         Activity activity = entityManager.find(Activity.class, id);
@@ -51,7 +49,6 @@ public class ActivityDao {
 
     public void deleteActivity(long id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-
         entityManager.getTransaction().begin();
 
         Activity activity = entityManager.find(Activity.class, id);
@@ -75,7 +72,6 @@ public class ActivityDao {
 
     public Activity findActivityByIdWithLabels(long id){
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-
         entityManager.getTransaction().begin();
 
         Activity activity = entityManager.createQuery("select a from Activity a join fetch a.labels where a.id = :id", Activity.class)
@@ -89,7 +85,6 @@ public class ActivityDao {
 
     public Activity findActivityByIdWithTrackPoints(long id){
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-
         entityManager.getTransaction().begin();
 
         Activity activity = entityManager.createQuery("select a from Activity a join fetch a.trackPoints where a.id = :id", Activity.class)
@@ -99,5 +94,20 @@ public class ActivityDao {
         entityManager.close();
 
         return activity;
+    }
+
+    public List<Coordinate> findTrackPointCoordinatesByDate(LocalDateTime afterThis, int start, int max){
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+
+        List<Coordinate> coordinates = entityManager.createNamedQuery("TrackPointCoordinatesByDate", Coordinate.class)
+                .setParameter("time", afterThis)
+                .setFirstResult(start)
+                .setMaxResults(max)
+                .getResultList();
+        entityManager.getTransaction().commit();
+        entityManager.close();
+
+        return coordinates;
     }
 }
