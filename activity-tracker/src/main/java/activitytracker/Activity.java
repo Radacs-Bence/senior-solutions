@@ -9,13 +9,16 @@ public class Activity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
-    @Column(name = "start_time")
+    @Column(name = "start_time", nullable = false)
     private LocalDateTime startTime;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 200, nullable = false)
     private String desc;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20, nullable = false)
     private ActivityType type;
 
     public Activity(LocalDateTime startTime, String desc, ActivityType type) {
@@ -28,7 +31,7 @@ public class Activity {
 
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
