@@ -22,6 +22,12 @@ public class Activity {
     @Column(length = 20, nullable = false)
     private ActivityType type;
 
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
     public Activity(LocalDateTime startTime, String desc, ActivityType type) {
         this.startTime = startTime;
         this.desc = desc;
@@ -58,5 +64,21 @@ public class Activity {
 
     public void setType(ActivityType type) {
         this.type = type;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

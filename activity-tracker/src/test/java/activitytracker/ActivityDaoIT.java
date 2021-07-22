@@ -53,4 +53,13 @@ class ActivityDaoIT {
         assertEquals(activities.size(), 4);
         assertEquals(activities.get(1).getDesc(), "example3");
     }
+
+    @Test
+    void updateActivity() {
+        activityDao.updateActivity(2, "Example21");
+        Activity activity = activityDao.findActivityById(2);
+
+        assertEquals(activity.getDesc(), "Example21");
+        assertNotEquals(activity.getUpdatedAt(), null);
+    }
 }

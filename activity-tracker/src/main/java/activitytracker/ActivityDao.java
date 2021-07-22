@@ -17,6 +17,7 @@ public class ActivityDao {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
 
+        activity.setCreatedAt(LocalDateTime.now());
         entityManager.persist(activity);
 
         entityManager.getTransaction().commit();
@@ -55,6 +56,18 @@ public class ActivityDao {
 
         Activity activity = entityManager.find(Activity.class, id);
         entityManager.remove(activity);
+        entityManager.getTransaction().commit();
+
+        entityManager.close();
+    }
+
+    public void updateActivity(long id, String description){
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+
+        Activity activity = entityManager.find(Activity.class, id);
+        activity.setDesc(description);
+        activity.setUpdatedAt(LocalDateTime.now());
         entityManager.getTransaction().commit();
 
         entityManager.close();
