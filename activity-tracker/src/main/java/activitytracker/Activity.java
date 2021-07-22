@@ -7,7 +7,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "Activities")
-@NamedQuery(name = "TrackPointCoordinatesByDate", query = "select new activitytracker.Coordinate(t.lat, t.lon) from TrackPoint t where t.time > :time")
 public class Activity {
 
     @Id
