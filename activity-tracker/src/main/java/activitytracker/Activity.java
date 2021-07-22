@@ -10,8 +10,8 @@ import java.util.List;
 public class Activity {
 
     @Id
-    @GeneratedValue(generator="Activity_Gen")
-    @TableGenerator(name="Activity_Gen", table = "act_id_gen", pkColumnName = "id_gen ", pkColumnValue = "id_val")
+    @GeneratedValue(generator = "Activity_Gen")
+    @TableGenerator(name = "Activity_Gen", table = "act_id_gen", pkColumnName = "id_gen ", pkColumnValue = "id_val")
     private Long id;
 
     @Column(name = "start_time", nullable = false)
@@ -33,6 +33,12 @@ public class Activity {
     @ElementCollection
     private List<String> labels;
 
+    @OneToMany(cascade=CascadeType.PERSIST)
+    @OrderBy("time asc")
+    private List<TrackPoint> trackPoints;
+
+
+
     public Activity(LocalDateTime startTime, String desc, ActivityType type) {
         this.startTime = startTime;
         this.desc = desc;
@@ -41,6 +47,22 @@ public class Activity {
 
     public Activity() {
 
+    }
+
+
+    public void addLabel(String label) {
+        if (labels == null) {
+            labels = new ArrayList<>();
+        }
+        labels.add(label);
+    }
+
+    public void addTrackPoint(TrackPoint trackPoint){
+        if (trackPoints == null){
+            trackPoints = new ArrayList<>();
+        }
+        trackPoint.setActivity(this);
+        trackPoints.add(trackPoint);
     }
 
     public Long getId() {
@@ -87,13 +109,6 @@ public class Activity {
         this.updatedAt = updatedAt;
     }
 
-    public void addLabel(String label){
-        if (labels == null){
-            labels = new ArrayList<>();
-        }
-        labels.add(label);
-    }
-
     public List<String> getLabels() {
         return labels;
     }
@@ -101,4 +116,18 @@ public class Activity {
     public void setLabels(List<String> labels) {
         this.labels = labels;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<TrackPoint> getTrackPoints() {
+        return trackPoints;
+    }
+
+     public void setTrackPoints(List<TrackPoint> trackPoints) {
+        this.trackPoints = trackPoints;
+    }
+
+
 }

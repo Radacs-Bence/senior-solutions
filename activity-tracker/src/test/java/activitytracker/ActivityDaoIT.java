@@ -19,12 +19,28 @@ class ActivityDaoIT {
     void init(){
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("pu");
         activityDao = new ActivityDao(entityManagerFactory);
-        activityDao.saveActivity(new Activity(LocalDateTime.now(), "example1", ActivityType.BIKING));
-        activityDao.saveActivity(new Activity(LocalDateTime.now(), "example2", ActivityType.HIKING));
-        activityDao.saveActivity(new Activity(LocalDateTime.now(), "example3", ActivityType.RUNNING));
-        activityDao.saveActivity(new Activity(LocalDateTime.of(1997, 2, 24, 3, 43), "example4", ActivityType.BIKING));
-        activityDao.saveActivity(new Activity(LocalDateTime.now(), "example5", ActivityType.BASKETBALL));
 
+        Activity example1 = new Activity(LocalDateTime.now(), "example1", ActivityType.BIKING);
+        activityDao.saveActivity(example1);
+
+        Activity example2 = new Activity(LocalDateTime.now(), "example2", ActivityType.HIKING);
+        activityDao.saveActivity(example2);
+
+        Activity example3 = new Activity(LocalDateTime.now(), "example3", ActivityType.RUNNING);
+       example3.addTrackPoint(new TrackPoint(LocalDateTime.of(2024, 4, 24, 14, 44), 4, 4));
+        example3.addTrackPoint(new TrackPoint(LocalDateTime.of(2023, 3, 23, 13, 43), 3, 3));
+        example3.addTrackPoint(new TrackPoint(LocalDateTime.of(2021, 1, 21, 11, 41), 1, 1));
+        example3.addTrackPoint(new TrackPoint(LocalDateTime.of(2022, 2, 22, 12, 42), 2, 2));
+
+        activityDao.saveActivity(example3);
+
+        Activity example4 = new Activity(LocalDateTime.of(1997, 2, 24, 3, 43), "example4", ActivityType.BIKING);
+        activityDao.saveActivity(example4);
+
+        Activity example5 = new Activity(LocalDateTime.now(), "example5", ActivityType.BASKETBALL);
+        example5.addLabel("LabelEx1");
+        example5.addLabel("LabelEx2");
+        activityDao.saveActivity(example5);
     }
 
     @Test
@@ -65,15 +81,22 @@ class ActivityDaoIT {
 
     @Test
     void findActivityByIdWithLabels() {
-        Activity example6 = new Activity(LocalDateTime.now(), "example6", ActivityType.BASKETBALL);
-        example6.addLabel("LabelEx1");
-        example6.addLabel("LabelEx2");
-        activityDao.saveActivity(example6);
 
 
-        Activity activity = activityDao.findActivityByIdWithLabels(6);
+
+        Activity activity = activityDao.findActivityByIdWithLabels(5);
 
         assertEquals(activity.getLabels().size(), 2);
         assertEquals(activity.getLabels().get(0), "LabelEx1");
+    }
+
+
+    @Test
+    void findActivityByIdWithTrackPoints() {
+        Activity activity = activityDao.findActivityByIdWithTrackPoints(3);
+
+        assertEquals(activity.getTrackPoints().size(), 4);
+        assertEquals(activity.getTrackPoints().get(3).getLat(), 4);
+
     }
 }
