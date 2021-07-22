@@ -4,12 +4,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ActivityTrackerMain {
 
     private EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("pu");
 
-    public void saveActivities(){
+    public void saveActivities() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
 
@@ -32,8 +33,62 @@ public class ActivityTrackerMain {
         entityManager.close();
     }
 
+    public List<Activity> listActivities() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+
+        List<Activity> activities = entityManager.createQuery("select a from Activity a", Activity.class)
+                .getResultList();
+        entityManager.close();
+
+        return activities;
+    }
+
+    public Activity findById(long id) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+
+        Activity activity = entityManager.find(Activity.class, id);
+        entityManager.close();
+
+        return activity;
+    }
+
+    public void modifyDescById(long id, String desc) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+
+        Activity activity = entityManager.find(Activity.class, id);
+        activity.setDesc(desc);
+        entityManager.getTransaction().commit();
+
+        entityManager.close();
+    }
+
+
+
+    public void removeById(long id) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+
+        Activity activity = entityManager.find(Activity.class, id);
+        entityManager.remove(activity);
+        entityManager.getTransaction().commit();
+
+        entityManager.close();
+    }
+
     public static void main(String[] args) {
-        new ActivityTrackerMain().saveActivities();
+        ActivityTrackerMain activityTrackerMain = new ActivityTrackerMain();
+        activityTrackerMain.saveActivities();
+
+        System.out.println(activityTrackerMain.listActivities().get(1).getDesc());
+        System.out.println(activityTrackerMain.findById(2l).getDesc());
+        activityTrackerMain.modifyDescById(2l, "exapmle 23");
+        System.out.println(activityTrackerMain.findById(2l).getDesc());
+        activityTrackerMain.removeById(2l);
+        System.out.println(activityTrackerMain.listActivities().get(1).getDesc());
+
     }
 
 }
