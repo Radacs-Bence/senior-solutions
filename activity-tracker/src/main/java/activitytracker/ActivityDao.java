@@ -58,19 +58,19 @@ public class ActivityDao {
         entityManager.close();
     }
 
-    public void updateActivity(long id, String description){
+    public void updateActivity(long id, String description) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
 
         Activity activity = entityManager.find(Activity.class, id);
-        activity.setDesc(description);
+        activity.setDescription(description);
         activity.setUpdatedAt(LocalDateTime.now());
         entityManager.getTransaction().commit();
 
         entityManager.close();
     }
 
-    public Activity findActivityByIdWithLabels(long id){
+    public Activity findActivityByIdWithLabels(long id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
 
@@ -83,7 +83,7 @@ public class ActivityDao {
         return activity;
     }
 
-    public Activity findActivityByIdWithTrackPoints(long id){
+    public Activity findActivityByIdWithTrackPoints(long id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
 
@@ -96,7 +96,7 @@ public class ActivityDao {
         return activity;
     }
 
-    public List<Coordinate> findTrackPointCoordinatesByDate(LocalDateTime afterThis, int start, int max){
+    public List<Coordinate> findTrackPointCoordinatesByDate(LocalDateTime afterThis, int start, int max) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
 
@@ -105,9 +105,24 @@ public class ActivityDao {
                 .setFirstResult(start)
                 .setMaxResults(max)
                 .getResultList();
+
         entityManager.getTransaction().commit();
         entityManager.close();
 
         return coordinates;
     }
+
+    public List<Object[]> findTrackPointCountByActivity() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+
+        List<Object[]> count = entityManager.createQuery("select a.description, count(t) from Activity a join a.trackPoints t order by a.description", Object[].class)
+                .getResultList();
+
+        entityManager.getTransaction().commit();
+        entityManager.close();
+
+        return count;
+    }
+
 }

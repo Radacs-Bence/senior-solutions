@@ -48,7 +48,7 @@ class ActivityDaoIT {
         List<Activity> activities = activityDao.listActivities();
 
         assertEquals(5, activities.size());
-        assertEquals("example2", activities.get(1).getDesc());
+        assertEquals("example2", activities.get(1).getDescription());
 
     }
 
@@ -56,7 +56,7 @@ class ActivityDaoIT {
     void findActivityById() {
         Activity activity = activityDao.findActivityById(3);
 
-        assertEquals("example3", activity.getDesc());
+        assertEquals("example3", activity.getDescription());
 
     }
 
@@ -67,7 +67,7 @@ class ActivityDaoIT {
         List<Activity> activities = activityDao.listActivities();
 
         assertEquals(4, activities.size());
-        assertEquals("example3", activities.get(1).getDesc());
+        assertEquals("example3", activities.get(1).getDescription());
     }
 
     @Test
@@ -75,7 +75,7 @@ class ActivityDaoIT {
         activityDao.updateActivity(2, "Example21");
         Activity activity = activityDao.findActivityById(2);
 
-        assertEquals("Example21", activity.getDesc());
+        assertEquals("Example21", activity.getDescription());
         assertNotEquals(null, activity.getUpdatedAt());
     }
 
@@ -111,5 +111,13 @@ class ActivityDaoIT {
         assertEquals(2, coordinates2.size());
         assertEquals(3 ,coordinates2.get(0).getLat());
         assertEquals(1 ,coordinates2.get(1).getLat());
+    }
+
+    @Test
+    void findTrackPointCountByActivity() {
+        List<Object[]> count = activityDao.findTrackPointCountByActivity();
+
+        assertEquals(1, count.size());
+        assertEquals(4L, count.get(0)[1]);
     }
 }

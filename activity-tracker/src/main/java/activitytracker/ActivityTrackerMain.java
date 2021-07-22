@@ -59,7 +59,7 @@ public class ActivityTrackerMain {
         entityManager.getTransaction().begin();
 
         Activity activity = entityManager.find(Activity.class, id);
-        activity.setDesc(desc);
+        activity.setDescription(desc);
         entityManager.getTransaction().commit();
 
         entityManager.close();
@@ -82,12 +82,12 @@ public class ActivityTrackerMain {
         ActivityTrackerMain activityTrackerMain = new ActivityTrackerMain();
         activityTrackerMain.saveActivities();
 
-        System.out.println(activityTrackerMain.listActivities().get(1).getDesc());
-        System.out.println(activityTrackerMain.findById(2l).getDesc());
+        System.out.println(activityTrackerMain.listActivities().get(1).getDescription());
+        System.out.println(activityTrackerMain.findById(2l).getDescription());
         activityTrackerMain.modifyDescById(2l, "exapmle 23");
-        System.out.println(activityTrackerMain.findById(2l).getDesc());
+        System.out.println(activityTrackerMain.findById(2l).getDescription());
         activityTrackerMain.removeById(2l);
-        System.out.println(activityTrackerMain.listActivities().get(1).getDesc());
+        System.out.println(activityTrackerMain.listActivities().get(1).getDescription());
 
     }
 

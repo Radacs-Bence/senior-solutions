@@ -11,5 +11,5 @@
 * [X] Többértékű attribútumok
 * [X] Kapcsolatok
 * [X] Lekérdezések
-* [ ] Haladó lekérdezések
-* [ ] Deklaratív tranzakciókezelés
+* [X] Haladó lekérdezések
+* [X] Deklaratív tranzakciókezelés

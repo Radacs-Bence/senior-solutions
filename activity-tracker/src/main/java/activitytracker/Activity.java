@@ -18,7 +18,7 @@ public class Activity {
     private LocalDateTime startTime;
 
     @Column(name = "description", length = 200, nullable = false)
-    private String desc;
+    private String description;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20, nullable = false)
@@ -39,9 +39,9 @@ public class Activity {
 
 
 
-    public Activity(LocalDateTime startTime, String desc, ActivityType type) {
+    public Activity(LocalDateTime startTime, String description, ActivityType type) {
         this.startTime = startTime;
-        this.desc = desc;
+        this.description = description;
         this.type = type;
     }
 
@@ -77,12 +77,12 @@ public class Activity {
         this.startTime = startTime;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescription(String desc) {
+        this.description = desc;
     }
 
     public ActivityType getType() {
