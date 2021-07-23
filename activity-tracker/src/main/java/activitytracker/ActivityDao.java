@@ -26,11 +26,9 @@ public class ActivityDao {
 
     public List<Activity> listActivities() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
 
         List<Activity> activities = entityManager.createQuery("select a from Activity a", Activity.class)
                 .getResultList();
-        entityManager.getTransaction().commit();
         entityManager.close();
 
         return activities;
@@ -38,10 +36,8 @@ public class ActivityDao {
 
     public Activity findActivityById(long id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
 
         Activity activity = entityManager.find(Activity.class, id);
-        entityManager.getTransaction().commit();
         entityManager.close();
 
         return activity;
@@ -72,12 +68,10 @@ public class ActivityDao {
 
     public Activity findActivityByIdWithLabels(long id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
 
         Activity activity = entityManager.createQuery("select a from Activity a join fetch a.labels where a.id = :id", Activity.class)
                 .setParameter("id", id)
                 .getSingleResult();
-        entityManager.getTransaction().commit();
         entityManager.close();
 
         return activity;
@@ -85,12 +79,10 @@ public class ActivityDao {
 
     public Activity findActivityByIdWithTrackPoints(long id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
 
         Activity activity = entityManager.createQuery("select a from Activity a join fetch a.trackPoints where a.id = :id", Activity.class)
                 .setParameter("id", id)
                 .getSingleResult();
-        entityManager.getTransaction().commit();
         entityManager.close();
 
         return activity;
@@ -98,7 +90,6 @@ public class ActivityDao {
 
     public List<Coordinate> findTrackPointCoordinatesByDate(LocalDateTime afterThis, int start, int max) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
 
         List<Coordinate> coordinates = entityManager.createNamedQuery("TrackPointCoordinatesByDate", Coordinate.class)
                 .setParameter("time", afterThis)
@@ -106,7 +97,6 @@ public class ActivityDao {
                 .setMaxResults(max)
                 .getResultList();
 
-        entityManager.getTransaction().commit();
         entityManager.close();
 
         return coordinates;
@@ -114,12 +104,10 @@ public class ActivityDao {
 
     public List<Object[]> findTrackPointCountByActivity() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
 
         List<Object[]> count = entityManager.createQuery("select a.description, count(t) from Activity a join a.trackPoints t order by a.description", Object[].class)
                 .getResultList();
 
-        entityManager.getTransaction().commit();
         entityManager.close();
 
         return count;
