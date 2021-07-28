@@ -15,18 +15,23 @@ import java.util.stream.Collectors;
 public class LocationsService {
 
     private ModelMapper modelMapper;
-    private AtomicLong idGenerator = new AtomicLong();
-    private List<Location> locations = new ArrayList<>();
+    private LocationsRepository locationsRepository;
 
-    public LocationsService(ModelMapper modelMapper) {
+   /* public LocationsService(ModelMapper modelMapper) {
         locations.add(new Location(idGenerator.incrementAndGet(), "a", 1, 1));
         locations.add(new Location(idGenerator.incrementAndGet(), "b", 1, 1.3));
         locations.add(new Location(idGenerator.incrementAndGet(), "c", 2, 1.3));
         locations.add(new Location(idGenerator.incrementAndGet(), "d", 2, 23.4));
         this.modelMapper = modelMapper;
+    }*/
+
+    public LocationsService(ModelMapper modelMapper, LocationsRepository locationsRepository) {
+        this.modelMapper = modelMapper;
+        this.locationsRepository = locationsRepository;
     }
 
     public List<LocationDTO> listLocations(Optional<String> name) {
+        List<Location> locations = locationsRepository.findAll();
         List<Location> filtered =  locations.stream()
                 .filter(location -> name.isEmpty() || location.getName().toLowerCase().contains(name.get().toLowerCase()))
                 .collect(Collectors.toList());
@@ -39,15 +44,12 @@ public class LocationsService {
     }
 
     private Location searchLocationsById(long id) {
-        return locations.stream()
-                .filter(location -> location.getId() == id)
-                .findAny()
-                .orElseThrow(() ->new IllegalArgumentException("Location not found: " + id));
+        return locationsRepository.findById(id).orElseThrow(() ->new IllegalArgumentException("Location not found: " + id));
     }
 
     public LocationDTO createLocation(CreateLocationCommand command) {
-        Location location = new Location(idGenerator.incrementAndGet(), command.getName(), command.getLat(), command.getLon());
-        locations.add(location);
+        Location location = new Location(command.getName(), command.getLat(), command.getLon());
+        locationsRepository.save(location);
         return modelMapper.map(location, LocationDTO.class);
     }
 
@@ -61,6 +63,6 @@ public class LocationsService {
 
     public void deleteLocation(long id) {
         Location found = searchLocationsById(id);
-        locations.remove(found);
+        locationsRepository.delete(found);
     }
 }

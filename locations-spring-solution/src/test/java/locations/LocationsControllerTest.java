@@ -31,7 +31,7 @@ class LocationsControllerTest {
         when(locationsService.listLocations(Optional.empty()))
                 .thenReturn(List.of(new LocationDTO(1L,"a", 1,1)));
         String result = locationsController.listLocations(Optional.empty());
-        assertEquals("a", result);
+        assertEquals("1, a, 1.0, 1.0", result);
     }
 
 
