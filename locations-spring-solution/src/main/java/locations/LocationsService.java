@@ -58,6 +58,7 @@ public class LocationsService {
         found.setName(command.getName());
         found.setLat(command.getLat());
         found.setLon(command.getLon());
+        locationsRepository.save(found);
         return modelMapper.map(found, LocationDTO.class);
     }
 
